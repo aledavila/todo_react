@@ -47,9 +47,10 @@ export default class Todos extends Component {
           style={styles.deleteButton}
           onPress={()=>{
             realm.write(()=>{
-              realm.delete(todo.taks)
+              let task = realm.objects('Todo')[0]
+              realm.delete(task)
 
-              this.state({
+              this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(realm.objects('Todo'))
               })
             })
@@ -98,6 +99,22 @@ export default class Todos extends Component {
           </TouchableHighlight>
         </View>
 
+        <TouchableHighlight
+          style={styles.clearButton}
+          onPress={()=>{
+            realm.write(()=>{
+              let tasks = realm.objects('Todo')
+              realm.delete(tasks)
+
+              this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(realm.objects('Todo'))
+              })
+            })
+          }}
+        >
+          <Text style={styles.clearText}>Clear All</Text>
+        </TouchableHighlight>
+
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this._renderTodo}
@@ -112,31 +129,13 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 22,
   },
-  taskText: {
-    fontFamily: 'Avenir Next'
-  },
-  row: {
-    height: 40,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginLeft: 16,
-    marginRight: 16,
-    marginTop: 5,
-    paddingRight: 15,
-    paddingLeft: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#AAA'
-  },
-  completed: {
-    textDecorationLine: 'line-through'
-  },
   newTodoWrapper: {
     flexDirection: 'row',
-    marginHorizontal: 16
+    marginHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
   },
   newTodoField: {
-    borderWidth: 1,
     flex: 1,
     height: 40,
     marginTop: 10,
@@ -156,5 +155,37 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'black',
     fontFamily: 'Avenir Next'
+  },
+  clearButton: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'black',
+    marginLeft: 16,
+    marginRight: 16,
+    marginTop: 10
+  },
+  clearText: {
+    fontFamily: 'Avenir Next',
+    textAlign: 'center'
+  },
+  taskText: {
+    fontFamily: 'Avenir Next',
+    color: 'gray'
+  },
+  row: {
+    height: 40,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginLeft: 16,
+    marginRight: 16,
+    marginTop: 5,
+    paddingRight: 15,
+    paddingLeft: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#AAA'
+  },
+  completed: {
+    textDecorationLine: 'line-through'
   }
 })

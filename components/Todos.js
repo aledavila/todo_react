@@ -14,6 +14,7 @@ import realm from '../utils/realm';
 export default class Todos extends Component {
   constructor(props) {
     super(props);
+    this.state = {pressed: false}
     const dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     })
@@ -30,7 +31,7 @@ export default class Todos extends Component {
 
   _renderTodo(todo) {
     return (
-      <View style={[styles.row, todo.completed && styles.completed]}>
+      <View style={styles.row}>
         <TouchableHighlight onPress={()=>{
           realm.write(()=>{
             todo.completed = !todo.completed
@@ -40,7 +41,21 @@ export default class Todos extends Component {
             })
           })
         }}>
-          <Text>{todo.taks}</Text>
+          <Text style={[styles.taskText, todo.completed && styles.completed]}>{todo.taks}</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.deleteButton}
+          onPress={()=>{
+            realm.write(()=>{
+              realm.delete(todo.taks)
+
+              this.state({
+                dataSource: this.state.dataSource.cloneWithRows(realm.objects('Todo'))
+              })
+            })
+          }}
+        >
+          <Text style={styles.buttonText}>X</Text>
         </TouchableHighlight>
       </View>
     )
@@ -76,7 +91,7 @@ export default class Todos extends Component {
             onSubmitEditing={this._addTodo}
           />
           <TouchableHighlight
-            style={styles.button}
+            style={this.state.pressed ? styles.pressButton : styles.addButton}
             onPress={this._addTodo}
           >
             <Text style={styles.buttonText}>Add</Text>
@@ -97,16 +112,24 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 22,
   },
+  taskText: {
+    fontFamily: 'Avenir Next'
+  },
   row: {
     height: 40,
-    justifyContent: 'center',
-    borderBottomColor: '#AAA',
-    borderBottomWidth: 1 / PixelRatio.get(),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginLeft: 16,
-    backgroundColor: 'red'
+    marginRight: 16,
+    marginTop: 5,
+    paddingRight: 15,
+    paddingLeft: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#AAA'
   },
   completed: {
-    backgroundColor: 'green'
+    textDecorationLine: 'line-through'
   },
   newTodoWrapper: {
     flexDirection: 'row',
@@ -114,12 +137,24 @@ const styles = StyleSheet.create({
   },
   newTodoField: {
     borderWidth: 1,
-    flex: 1
+    flex: 1,
+    height: 40,
+    marginTop: 10,
+    fontFamily: 'Avenir Next',
+    paddingLeft: 10
   },
-  button: {
-    backgroundColor: 'blue',
+  addButton: {
+    marginTop: 10,
+    backgroundColor: 'white',
+    width: 50,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  pressButton: {
+    backgroundColor: 'white'
   },
   buttonText: {
-    color: 'white'
+    color: 'black',
+    fontFamily: 'Avenir Next'
   }
 })

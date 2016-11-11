@@ -16,7 +16,7 @@
 
 ##
 
-#####Installation: 
+####Installation: 
 
 Install React Native CLI globally to use in terminal
 

@@ -16,11 +16,15 @@
 
 ##
 
-Installation: 
+#####Installation: 
 
-```$ npm install -g react-native-cli
-$ npm install
-$ react-native link realm
-$ react-native run-ios```
+Install React Native CLI globally to use in terminal
+```$ npm install -g react-native-cli```
+
+Install node modules
+```$ npm install```
+
+Run iOS
+```$ react-native run-ios```
 
 *Make sure you have xcode on your computer*

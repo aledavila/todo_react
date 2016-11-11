@@ -31,3 +31,5 @@ Run iOS
 ```$ react-native run-ios```
 
 *Make sure you have xcode on your computer*
+
+![alt text](https://cloud.githubusercontent.com/assets/12533409/20224095/6acf6cc6-a802-11e6-8e76-f44f75a23496.png)

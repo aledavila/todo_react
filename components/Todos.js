@@ -43,6 +43,7 @@ export default class Todos extends Component {
         }}>
           <Text style={[styles.taskText, todo.completed && styles.completed]}>{todo.taks}</Text>
         </TouchableHighlight>
+
         <TouchableHighlight
           style={styles.deleteButton}
           onPress={()=>{
@@ -159,14 +160,15 @@ const styles = StyleSheet.create({
   clearButton: {
     padding: 10,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: 'red',
     marginLeft: 16,
     marginRight: 16,
     marginTop: 10
   },
   clearText: {
     fontFamily: 'Avenir Next',
-    textAlign: 'center'
+    textAlign: 'center',
+    color: 'red'
   },
   taskText: {
     fontFamily: 'Avenir Next',
